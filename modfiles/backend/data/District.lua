@@ -44,6 +44,7 @@ end
 ---@param direction NeighbourDirection?
 function District:insert(factory, relative_object, direction)
     factory.parent = self
+    factory.top_floor:reset_location()
     self:_insert(factory, relative_object, direction)
     self.needs_refresh = true
 end
@@ -115,8 +116,7 @@ function District:refresh()
     self.item_set:clear()
 
     for factory in self:iterator({archived=false, valid=true}) do
-        self.item_set:add_items(factory:as_list(), "production")
-        self.item_set:add_items(factory.top_floor.byproducts, "production")
+        self.item_set:add_items(factory.top_floor.products, "production")
         self.item_set:add_items(factory.top_floor.ingredients, "consumption")
     end
 

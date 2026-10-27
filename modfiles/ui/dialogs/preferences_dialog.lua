@@ -146,7 +146,7 @@ end
 ---@param preferences PreferencesTable
 ---@param content_frame LuaGuiElement
 local function add_solver_box(preferences, content_frame)
-    local preference_names = {"per_floor_solver", "ingredient_satisfaction", "calculate_emissions"}
+    local preference_names = {"per_floor_solver", "calculate_emissions"}
     local solver_box = add_checkboxes_box(preferences, content_frame, "solver", preference_names)
 
     local solver_items, solver_index = {}, nil  ---@type LocalisedString[], integer?
@@ -313,7 +313,7 @@ local function handle_checkbox_preference_change(player, tags, event)
     elseif preference_name == "per_floor_solver" then
         lib.gui.run_refresh(player, "production_box")
 
-    elseif preference_name == "ingredient_satisfaction" or preference_name == "calculate_emissions" then
+    elseif preference_name == "calculate_emissions" then
         lib.preferences.refresh_after_change(player, "solver_config")
 
     elseif tags.data_type == "production" then
@@ -448,7 +448,9 @@ local function open_preferences_dialog(player, modal_data)
     -- Right side
     local right_content_frame = modal_elements.secondary_frame
     add_views_box(player, right_content_frame, modal_elements)
+    right_content_frame.add{type="empty-widget", style="fflib_vertical_pusher"}
     add_belts_proto_box(player, right_content_frame)
+    right_content_frame.add{type="empty-widget", style="fflib_vertical_pusher"}
 
     local preference_box = add_preference_box(right_content_frame, "box_defaults", true)
     local default_boxes_table = preference_box.add{type="table", column_count=3}
@@ -459,9 +461,6 @@ local function open_preferences_dialog(player, modal_data)
     add_default_proto_box(player, default_boxes_table, "silos", nil, "rocket-silo")
     default_boxes_table.add{type="empty-widget", style="fflib_horizontal_pusher"}
     add_default_proto_box(player, default_boxes_table, "wagons", "fluid-wagon", "fluid-wagon")
-
-    local pusher = right_content_frame.add{type="empty-widget", style="fflib_vertical_pusher"}
-    pusher.style.top_margin = -4  -- counteract vertical spacing
 
     add_export_box(modal_elements)  -- export UI
 end

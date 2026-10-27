@@ -21,13 +21,13 @@ end
 ---@field show_unresearched_items boolean
 ---@field compact_ingredients boolean
 ---@field fold_out_subfloors boolean
+---@field highlight_items boolean
 ---@field main_width_percentage integer
 ---@field main_height_percentage integer
 ---@field compact_width_percentage integer
 ---@field show_gui_button boolean
 ---@field attach_factory_products boolean
 ---@field skip_factory_naming boolean
----@field ingredient_satisfaction boolean
 ---@field calculate_emissions boolean
 ---@field ignore_barreling_recipes boolean
 ---@field ignore_recycling_recipes boolean
@@ -74,15 +74,15 @@ function _preferences.reload(player_table)
     reload("show_unresearched_items", true)
     reload("compact_ingredients", false)
     reload("fold_out_subfloors", false)
+    reload("highlight_items", false)
 
-    reload("main_width_percentage", 80)
-    reload("main_height_percentage", 80)
-    reload("compact_width_percentage", 30)
+    reload("main_width_percentage", 70)
+    reload("main_height_percentage", 90)
+    reload("compact_width_percentage", 24)
 
     reload("show_gui_button", true)
     reload("skip_factory_naming", true)
     reload("attach_factory_products", false)
-    reload("ingredient_satisfaction", false)
     reload("calculate_emissions", false)
     reload("ignore_barreling_recipes", false)
     reload("ignore_recycling_recipes", false)
@@ -117,13 +117,13 @@ _preferences.current_version = 6
 ---@field pause_on_interface boolean
 ---@field compact_ingredients boolean
 ---@field fold_out_subfloors boolean
+---@field highlight_items boolean
 ---@field main_width_percentage integer
 ---@field main_height_percentage integer
 ---@field compact_width_percentage integer
 ---@field show_gui_button boolean
 ---@field attach_factory_products boolean
 ---@field skip_factory_naming boolean
----@field ingredient_satisfaction boolean
 ---@field calculate_emissions boolean
 ---@field ignore_barreling_recipes boolean
 ---@field ignore_recycling_recipes boolean
@@ -146,13 +146,13 @@ function _preferences.export(player)
         pause_on_interface = prefs.pause_on_interface,
         compact_ingredients = prefs.compact_ingredients,
         fold_out_subfloors = prefs.fold_out_subfloors,
+        highlight_items = prefs.highlight_items,
         main_width_percentage = prefs.main_width_percentage,
         main_height_percentage = prefs.main_height_percentage,
         compact_width_percentage = prefs.compact_width_percentage,
         show_gui_button = prefs.show_gui_button,
         attach_factory_products = prefs.attach_factory_products,
         skip_factory_naming = prefs.skip_factory_naming,
-        ingredient_satisfaction = prefs.ingredient_satisfaction,
         calculate_emissions = prefs.calculate_emissions,
         ignore_barreling_recipes = prefs.ignore_barreling_recipes,
         ignore_recycling_recipes = prefs.ignore_recycling_recipes,
@@ -205,6 +205,7 @@ function _preferences.import(player, export_string)
         assert(type(et.pause_on_interface) == "boolean")
         assert(type(et.compact_ingredients) == "boolean")
         assert(type(et.fold_out_subfloors) == "boolean")
+        assert(type(et.highlight_items) == "boolean")
         assert(verify_range(et.main_width_percentage, _preferences.main_dimension_percentages))
         assert(verify_range(et.main_height_percentage, _preferences.main_dimension_percentages))
         assert(verify_range(et.compact_width_percentage, _preferences.compact_width_percentages))
@@ -213,7 +214,6 @@ function _preferences.import(player, export_string)
         assert(type(et.skip_factory_naming) == "boolean")
         assert(verify_option(et.default_solver, solver.choices))
         assert(type(et.per_floor_solver) == "boolean")
-        assert(type(et.ingredient_satisfaction) == "boolean")
         assert(type(et.calculate_emissions) == "boolean")
         assert(type(et.ignore_barreling_recipes) == "boolean")
         assert(type(et.ignore_recycling_recipes) == "boolean")
